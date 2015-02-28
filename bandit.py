@@ -89,5 +89,8 @@ if __name__ == "__main__":
             reward = float(r.text)
             bandit.update(arm, reward)
             total_reward += reward
+            if i%100 == 0:
+                print "Count: {count}\nTotal_reward: {total_reward}\nAverage Reward: {avg}\nProbability Distribution across arms:]n{pdist}\n".format(count=count, total_reward=total_reward, avg=total_reward/count, pdist=bandit.probability_distribution())
+        print "\n\nDONE\n\n"
         print "Count: {count}\nTotal_reward: {total_reward}\nAverage Reward: {avg}\nProbability Distribution across arms:]n{pdist}\n".format(count=count, total_reward=total_reward, avg=total_reward/count, pdist=bandit.probability_distribution())
         break
