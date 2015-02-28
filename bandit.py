@@ -57,8 +57,8 @@ class EpsilonGreedyBandit(object):
         if not len(self.arms):
             return []
         best_arm = max(self.arms, key=lambda x: x.average_reward)
-        exploring_an_arm_probability = (1 - self.epsilon)/len(self.arms)
-        exploting_or_exploring_best_arm = self.epsilon + exploring_an_arm_probability
+        exploring_an_arm_probability = float(self.epsilon)/len(self.arms)
+        exploting_or_exploring_best_arm = (1.-self.epsilon) + exploring_an_arm_probability
 
 
         return [exploring_an_arm_probability if arm != best_arm else exploting_or_exploring_best_arm for arm in self.arms]
