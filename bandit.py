@@ -43,7 +43,7 @@ class EpsilonGreedyBandit(object):
 
     def select_arm(self):
         best_arm = max(self.arms, key=lambda x: x.average_reward)
-        if random.random() <= self.epsilon:
+        if random.random() >= self.epsilon:
             rv = best_arm
         else:
             rv = self.arms[random.randrange(len(self.arms))]
@@ -77,12 +77,17 @@ class EpsilonGreedyBandit(object):
 
 
 if __name__ == "__main__":
-    bandit = EpsilonGreedyBandit(number_arms=10, epsilon=0.20)
+    bandit = EpsilonGreedyBandit(number_arms=10, epsilon=0.80)
+    count = 0
+    total_reward = 0.0
     while True:
-        for i in xrange(10):
+        for i in xrange(10000):
+            count += 1
             arm = bandit.select_arm()
-            url = 'http://bandit-server.elasticbeanstalk.com/{type}?k={arm}&u={username}'.format(type="0", arm=arm.index, username="Ruby")
+            url = 'http://bandit-server.elasticbeanstalk.com/{type}?k={arm}&u={username}'.format(type="b", arm=arm.index, username="Ruby")
             r = requests.get(url)
             reward = float(r.text)
             bandit.update(arm, reward)
-        print bandit.probability_distribution()
+            total_reward += reward
+        print "Count: {count}\nTotal_reward: {total_reward}\nAverage Reward: {avg}\nProbability Distribution across arms:]n{pdist}\n".format(count=count, total_reward=total_reward, avg=total_reward/count, pdist=bandit.probability_distribution())
+        break
