@@ -84,7 +84,7 @@ if __name__ == "__main__":
         for i in xrange(10000):
             count += 1
             arm = bandit.select_arm()
-            url = 'http://bandit-server.elasticbeanstalk.com/{type}?k={arm}&u={username}'.format(type="b", arm=arm.index, username="Ruby")
+            url = 'http://dfc-ml.herokuapp.com/{type}?k={arm}&u={username}'.format(type="0", arm=arm.index, username="Ruby")
             r = requests.get(url)
             reward = float(r.text)
             bandit.update(arm, reward)
